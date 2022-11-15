@@ -26,17 +26,29 @@ class img():#画像表示
     def blit(self, scr:Screen):
         scr.sfc.blit(self.sfc, self.rct)
 
+
+class Shot:#スペースを押したら
+    def __init__(self,file):
+        pg.mixer.init() #初期化
+        pg.mixer.music.load(file) #読み込み
+
+    def sound(self):#音を鳴らす
+        pg.mixer.music.play(1) #再生
+        time.sleep(1)
+        pg.mixer.music.stop() #終了
+
+
 def main():
 
-    scr = Screen("刹那test", (700, 600), "fig/pg_bg.jpg")
+    scr = Screen("刹那test", (700, 600), "fig/yuyake.png")
     fight = img("fig/fight.png", 0.9, (350, 300))
     tori = img("fig/9.png", 2.0, (550, 450))
-    blue_tori = img("fig/2.png", 0.2, (170, 450))
-    kanban = img("fig/3.png", 0.5, (10,0))
+    blue_tori = img("fig/bluebird.png", 0.2, (170, 450))
+    kanban = img("fig/kanban.png", 0.5, (10,0))
     cong_time = 0 
     diley_frame = randint(2500,5000)# ms 2.5秒～5.0秒
     clock = pg.time.Clock()
-    flag = 0 
+    flag = 0
     while True:
         scr.blit()
         tori.blit(scr)
@@ -78,6 +90,8 @@ def main():
                 #ターミナルに表示(確認用)
                 print(f"time:{push_time - cong_time}ms" ) # おした瞬間の時間
                 print("1P WIN") # 勝利用
+                ds=Shot("fig/stabbing.mp3")
+                ds.sound()
                 #kkt_w.blit(scr)
                 time.sleep(3)
                 return
